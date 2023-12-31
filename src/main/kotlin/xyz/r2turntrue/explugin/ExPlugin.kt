@@ -1,4 +1,4 @@
-package org.example.explugin
+package xyz.r2turntrue.explugin
 
 import org.bukkit.plugin.java.JavaPlugin
 

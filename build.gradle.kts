@@ -1,8 +1,9 @@
 plugins {
-    kotlin("jvm") version "1.5.0"
+    kotlin("jvm") version "1.9.22"
+    id("io.papermc.paperweight.userdev") version "1.5.11"
 }
 
-group = "org.example"
+group = "xyz.r2turntrue"
 version = "1.0.0"
 
 repositories {
@@ -12,12 +13,17 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.20.2-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
 }
 
 
-val shade = configurations.create("shade")
-shade.extendsFrom(configurations.implementation.get())
+//val shade = configurations.create("shade")
+//shade.extendsFrom(configurations.implementation.get())
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+}
 
 tasks {
 
@@ -30,11 +36,11 @@ tasks {
     }
 
     compileKotlin {
-        kotlinOptions.jvmTarget = "16"
+        kotlinOptions.jvmTarget = "17"
     }
     
     compileTestKotlin {
-        kotlinOptions.jvmTarget = "16"
+        kotlinOptions.jvmTarget = "17"
     }
     
     processResources {
@@ -49,7 +55,11 @@ tasks {
     }
 
     jar {
-        from (shade.map { if (it.isDirectory) it else zipTree(it) })
+        //from (shade.map { if (it.isDirectory) it else zipTree(it) })
+    }
+
+    assemble {
+        dependsOn(reobfJar)
     }
 }
 
