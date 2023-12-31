@@ -12,14 +12,14 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
+    compileOnly(kotlin("stdlib"))
     paperweight.paperDevBundle("1.20.4-R0.1-SNAPSHOT")
     compileOnly("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
 }
 
 
-//val shade = configurations.create("shade")
-//shade.extendsFrom(configurations.implementation.get())
+val shade = configurations.create("shade")
+shade.extendsFrom(configurations.implementation.get())
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
@@ -55,7 +55,7 @@ tasks {
     }
 
     jar {
-        //from (shade.map { if (it.isDirectory) it else zipTree(it) })
+        from (shade.map { if (it.isDirectory) it else zipTree(it) })
     }
 
     assemble {
